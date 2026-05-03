@@ -19,6 +19,7 @@ class SettingsPreferencesModel {
   final bool immersiveMode;
   final bool fetchOnlineMusic;
   final AppTheme appTheme;
+  final bool useSpotifyMedia;
 
   SettingsPreferencesModel({
     required this.languageLocaleCode,
@@ -34,6 +35,7 @@ class SettingsPreferencesModel {
     required this.immersiveMode,
     required this.appTheme,
     this.fetchOnlineMusic = false,
+    this.useSpotifyMedia = false,
   });
 
   SettingsPreferencesModel copyWith({
@@ -49,6 +51,7 @@ class SettingsPreferencesModel {
     bool? splitScreenEnabled,
     bool? immersiveMode,
     bool? fetchOnlineMusic,
+    bool? useSpotifyMedia,
     AppTheme? appTheme,
   }) {
     return SettingsPreferencesModel(
@@ -66,6 +69,7 @@ class SettingsPreferencesModel {
       immersiveMode: immersiveMode ?? this.immersiveMode,
       appTheme: appTheme ?? this.appTheme,
       fetchOnlineMusic: fetchOnlineMusic ?? this.fetchOnlineMusic,
+      useSpotifyMedia: useSpotifyMedia ?? this.useSpotifyMedia,
     );
   }
 
@@ -84,6 +88,7 @@ class SettingsPreferencesModel {
         other.splitScreenEnabled == splitScreenEnabled &&
         other.immersiveMode == immersiveMode &&
         other.fetchOnlineMusic == fetchOnlineMusic &&
+        other.useSpotifyMedia == useSpotifyMedia &&
         other.appTheme == appTheme;
   }
 
@@ -102,5 +107,6 @@ class SettingsPreferencesModel {
     immersiveMode,
     appTheme,
     fetchOnlineMusic,
+    useSpotifyMedia,
   );
 }

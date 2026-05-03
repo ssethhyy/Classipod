@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:classipod/core/alerts/dialogs.dart';
 import 'package:classipod/core/constants/constants.dart';
 import 'package:classipod/core/extensions/build_context_extensions.dart';
 import 'package:classipod/core/navigation/routes.dart';
@@ -11,6 +12,7 @@ import 'package:classipod/features/now_playing/provider/now_playing_details_prov
 import 'package:classipod/features/settings/controller/settings_preferences_controller.dart';
 import 'package:classipod/features/settings/models/settings_preferences_model.dart';
 import 'package:classipod/features/settings/widgets/settings_list_tile.dart';
+import 'package:classipod/features/spotify/screens/spotify_settings_widget.dart';
 import 'package:classipod/features/status_bar/widgets/status_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +37,7 @@ enum _SettingsDisplayItems {
   showAppTutorial,
   rescanMusicFiles,
   excludeDirectories,
+  spotifyIntegration,
   resetSettings,
   donate;
 
@@ -76,6 +79,8 @@ enum _SettingsDisplayItems {
         return context.localization.resetSettingsTitle;
       case excludeDirectories:
         return context.localization.excludeDirectoriesScreenTitle;
+      case spotifyIntegration:
+        return 'Spotify';
       case donate:
         return context.localization.donateSettingTitle;
     }
@@ -184,6 +189,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             .read(settingsPreferencesControllerProvider.notifier)
             .resetSettings();
         break;
+      case _SettingsDisplayItems.spotifyIntegration:
+        _showSpotifySettings();
+        break;
       case _SettingsDisplayItems.donate:
         await launchUrl(
           Uri.parse(Constants.donationLinkUrl),
@@ -191,6 +199,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         );
         break;
     }
+  }
+
+  void _showSpotifySettings() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Spotify Integration'),
+        content: const SizedBox(
+          height: 300,
+          child: SingleChildScrollView(
+            child: SpotifySettingsWidget(),
+          ),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text('Done'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
   }
 
   bool? _isOn(
@@ -316,6 +345,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       case _SettingsDisplayItems.resetSettings:
         ref.read(splitScreenControllerProvider.notifier).changeSplitScreenType =
             SplitScreenType.resetSettings;
+        break;
+      case _SettingsDisplayItems.spotifyIntegration:
+        ref.read(splitScreenControllerProvider.notifier).changeSplitScreenType =
+            SplitScreenType.settings;
         break;
       case _SettingsDisplayItems.donate:
         ref.read(splitScreenControllerProvider.notifier).changeSplitScreenType =

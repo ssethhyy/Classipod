@@ -65,6 +65,7 @@ class SettingsPreferencesControllerNotifier
       splitScreenEnabled: settingsPreferencesRepository.getSplitScreenEnabled(),
       immersiveMode: settingsPreferencesRepository.getImmersiveMode(),
       appTheme: AppTheme.fromName(settingsPreferencesRepository.getAppTheme()),
+      useSpotifyMedia: settingsPreferencesRepository.getUseSpotifyMedia(),
     );
   }
 
@@ -381,5 +382,12 @@ class SettingsPreferencesControllerNotifier
         );
       }
     }
+  }
+
+  Future<void> toggleUseSpotifyMedia() async {
+    state = state.copyWith(useSpotifyMedia: !state.useSpotifyMedia);
+    await ref
+        .read(settingsPreferencesRepositoryProvider)
+        .setUseSpotifyMedia(useSpotify: state.useSpotifyMedia);
   }
 }

@@ -106,6 +106,13 @@ class SettingsPreferencesRepository {
         false;
   }
 
+  bool getUseSpotifyMedia() {
+    return _sharedPreferencesWithCache.getBool(
+          SharedPreferencesKeys.useSpotifyMedia.name,
+        ) ??
+        false;
+  }
+
   Future<void> setLanguageLocaleCode({
     required String languageLocaleCode,
   }) async {
@@ -197,6 +204,13 @@ class SettingsPreferencesRepository {
     return _sharedPreferencesWithCache.setBool(
       SharedPreferencesKeys.immersiveMode.name,
       isImmersiveModeEnabled,
+    );
+  }
+
+  Future<void> setUseSpotifyMedia({required bool useSpotify}) async {
+    return _sharedPreferencesWithCache.setBool(
+      SharedPreferencesKeys.useSpotifyMedia.name,
+      useSpotify,
     );
   }
 }
